@@ -29,6 +29,13 @@ public final class Bank {
     public MegtakaritasiSzamla szamlaNyitas(Tulajdonos tulajdonos) {
         return new MegtakaritasiSzamla(tulajdonos);
     }
+    //Működéshez szükséges
+    public Szamla getSzamla(int index) {
+        return szamlaLista.get(index);
+    }
+    public void setSzamla(Szamla szamla, int index){
+        szamlaLista.set(index,szamla);
+    }
 
     public int getOsszegyenleg() {
         int szum = 0;

@@ -16,6 +16,7 @@ public class Main {
             int randomindex = random.nextInt(tulajdonosok.size());
             bank.szamlaNyitas(tulajdonosok.get(randomindex),
                     random.nextBoolean() ? random.nextInt(100000) : 0);
+            bank.getSzamla(i).befizet(random.nextInt(10000));
         }
     }
 
