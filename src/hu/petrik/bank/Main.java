@@ -8,33 +8,37 @@ import java.util.List;
 import java.util.Random;
 
 public class Main {
-    static Random random = new Random();
     static List<Tulajdonos> tulajdonosok = new ArrayList<>();
 
     private static void bankUgyintezes(Bank bank, int meret) {
+        Random random = new Random();
         for (int i = 0; i < meret; i++) {
             int randomindex = random.nextInt(tulajdonosok.size());
-            bank.szamlaNyitas(tulajdonosok.get(randomindex),
-                    random.nextBoolean() ? random.nextInt(100000) : 0);
+            int keret = random.nextBoolean() ? random.nextInt(100000) : 0;
+            System.out.println(keret+":"+randomindex);
+            bank.szamlaNyitas(tulajdonosok.get(randomindex), keret);
             bank.getSzamla(i).befizet(random.nextInt(10000));
         }
     }
 
     private static String Kiirato(Bank bank) {
-        String ki = "Összegyenleg: ";
-        ki += bank.getOsszegyenleg();
-        ki += "\nÖsszhitelkeret: ";
+        String ki = "Bank összes kiadott hitelkerete: ";
         ki += bank.getOsszhitelkeret();
-        ki += "\nLegbőbb számla: ";
-        ki += bank.getLegnagyobbEgyenleguSzamla().getAktualisEgyenleg();
-        ki += "\nTulajdonosa: ";
-        ki += bank.getLegnagyobbEgyenleguSzamla().getTulajdonos().getNev();
+        Tulajdonos keresett = tulajdonosok.get(1);
+        try {
+            ki += "\nLegbőbb számlád ennél a banknál: ";
+            ki += bank.getLegnagyobbEgyenleguSzamla(keresett).getAktualisEgyenleg();
+            ki += "\nÖsszegyenleged ennél a banknál: ";
+            ki += bank.getOsszegyenleg(keresett);
+        } catch (Exception e) {
+            ki += "Nincs ennél a banknál számlád";
+        }
         return ki;
     }
 
     public static void main(String[] args) {
-        Bank raifaisen = new Bank(10);
-        Bank otp = new Bank(20);
+        Bank raifaisen = new Bank(110);
+        Bank otp = new Bank(210);
         tulajdonosok.add(new Tulajdonos("Én"));
         tulajdonosok.add(new Tulajdonos("Te"));
         tulajdonosok.add(new Tulajdonos("Ő"));
@@ -43,7 +47,7 @@ public class Main {
         tulajdonosok.add(new Tulajdonos("Ők"));
         bankUgyintezes(raifaisen, 10);
         bankUgyintezes(otp, 20);
-        System.out.println("\nOtp: \n"+Kiirato(otp));
-        System.out.println("\nRaifaisen: \n"+Kiirato(raifaisen));
+        System.out.println("\nOtp: \n" + Kiirato(otp));
+        System.out.println("\nRaifaisen: \n" + Kiirato(raifaisen));
     }
 }

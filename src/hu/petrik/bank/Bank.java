@@ -29,23 +29,33 @@ public final class Bank {
     public MegtakaritasiSzamla szamlaNyitas(Tulajdonos tulajdonos) {
         return new MegtakaritasiSzamla(tulajdonos);
     }
+
     //Működéshez szükséges
     public Szamla getSzamla(int index) {
         return szamlaLista.get(index);
     }
 
-    public int getOsszegyenleg() {
+    public int getOsszegyenleg(Tulajdonos tulajdonos) {
         int szum = 0;
         for (Szamla szamla : szamlaLista) {
-            szum += szamla.getAktualisEgyenleg();
+            if (szamla.getTulajdonos() == tulajdonos) {
+                szum += szamla.getAktualisEgyenleg();
+            }
         }
         return szum;
     }
 
-    public Szamla getLegnagyobbEgyenleguSzamla() {
-        Szamla szamlaMaistro = szamlaLista.get(0);
+    public Szamla getLegnagyobbEgyenleguSzamla(Tulajdonos tulajdonos) throws Exception {
+        int i = 0;
+        while (i < szamlaLista.size() && szamlaLista.get(i).getTulajdonos() != tulajdonos) {
+            i++;
+        }
+        if (i==szamlaLista.size()){
+            throw new Exception("Nem lehetséges");
+        }
+        Szamla szamlaMaistro = szamlaLista.get(i);
         for (Szamla szamla : szamlaLista) {
-            if (szamla.getAktualisEgyenleg() > szamlaMaistro.getAktualisEgyenleg()) {
+            if (szamla.getTulajdonos() == tulajdonos && szamla.getAktualisEgyenleg() > szamlaMaistro.getAktualisEgyenleg()) {
                 szamlaMaistro = szamla;
             }
         }
