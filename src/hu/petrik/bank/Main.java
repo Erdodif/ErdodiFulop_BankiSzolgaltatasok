@@ -15,7 +15,6 @@ public class Main {
         for (int i = 0; i < meret; i++) {
             int randomindex = random.nextInt(tulajdonosok.size());
             int keret = random.nextBoolean() ? random.nextInt(100000) : 0;
-            System.out.println(keret+":"+randomindex);
             bank.szamlaNyitas(tulajdonosok.get(randomindex), keret);
             bank.getSzamla(i).befizet(random.nextInt(10000));
         }
